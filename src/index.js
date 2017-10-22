@@ -1,3 +1,9 @@
+import $ from 'jquery';
+import Select from './select';
+import Sources from './sources';
+import Articles from './articles';
+import {getCategories, getLanguages, getSources, getArticles} from './newsAPI';
+
 (function () {
 	'use strict'
 
@@ -6,7 +12,7 @@
 	function initCategories () {
 		categories = new Select({
 			container: $('#categoriesContainer'),
-			data: newsAPI.getCategories()
+			data: getCategories()
 		});
 		categories.init();
 	}
@@ -14,7 +20,7 @@
 	function initLanguages () {
 		languages = new Select({
 			container: $('#languageContainer'),
-			data: newsAPI.getLanguages()
+			data: getLanguages()
 		});
 		languages.init();
 	}
@@ -44,11 +50,11 @@
 	function initListeners () {
 		$('.button').on('click', function () {
 			var updateSourcesFn = updateComponent.bind(null, sources);
-			newsAPI.getSources(categories.getValue(), languages.getValue(), updateSourcesFn);
+			getSources(categories.getValue(), languages.getValue(), updateSourcesFn);
 		});
 		sources.onSelect(function (sourceId) {
 			var updateArticlesFn = updateComponent.bind(null, articles);
-			newsAPI.getArticles(sourceId, updateArticlesFn);
+			getArticles(sourceId, updateArticlesFn);
 		});
 	}
 
